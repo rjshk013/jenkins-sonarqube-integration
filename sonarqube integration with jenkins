@@ -1,0 +1,75 @@
+Jenkins -sonarqube Integration
+----------------------------------
+
+Environment
+
+Jenkins server & Sonarcube running in docker containers
+
+Step 1.Login into sonarcube server
+
+ go-to “My Account” section on your profile. And move to “Security” tab. Then, Generate a “User Access Token”
+
+Login > Profile > My Account > Security > Generate Token
+
+jenkins-auth-token: 0c7c4d7611012b3f2bf37b0fb5cce442ff324a9c
+
+You need to copy & save this code immediately. This code won’t be able to see again. It shows only once.
+
+STEP 02: Install Sonar-Scanner on Jenkins
+-----------------------------------------
+
+Install below plugins :
+
+SonarQube Scanner for Jenkins
+Plain Credentials Plugin
+Credentials Plugin
+
+STEP 03: Add SonarQube Authentication Token Into Jenkins
+--------------------------------------------------------
+Head-over to Jenkins server and go-to Jenkins > Credentials > System > Global Credentials > Add Credentials
+
+Kind : Secret text (select from the drp down menu)
+
+Secret : SonarQube Authentication Token(the token we copied earlier)
+
+Description : Provide a descriptive name
+
+Click OK to add new credentials.
+
+STEP 04: Add SonarQube Server on Jenkins
+-----------------------------------------
+
+Now, We need to add SonarQube server settings into Jenkins.
+
+Manage Jenkins > Configure System > SonarQube servers [Scrol Down]
+
+Add following settings in the “SonarQube server” section.
+
+Enable : Enable injection of SonarQube server configuration as build environment variables
+
+Name : Provide a descriptive name for the connection
+
+Server URL : Provide you SonarQube server URL with port number.
+
+Server Authentication Token : Select credentials that we added previously as the step 02.
+
+Apply & Save.
+-----------------------------------------------------------------------------------------------
+
+STEP 05: Add Sonar-Scanner For Jenkins
+
+Goto Jenkins > Manage Jenkins > Global Tool Configuration > SonarQube Scanner [Scrol Down] > Add SonarQube-Scanner
+
+Now, We have two options, Either we can install automatically or manually. If you install specific version manually, Then you need to define “SONAR_RUNNER_HOME” path manually.
+
+In this case, I’m going to install automatically.
+
+Name : Sonar Scanner 4
+
+Install Automatically : Enabled
+
+Version : Select a version
+Finally Save & Apply changes.
+---------------------------------------------------------------------------------------
+
+Also in project root folder we must have sonar-project.properties file 
